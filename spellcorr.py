@@ -6,7 +6,7 @@ dictionary_path = os.path.join(os.getcwd(), "frequency_dictionary_en_82_765.txt"
 term_index = 0
 count_index = 1
 
-# Load dictionary
+
 if os.path.exists(dictionary_path):
     sym_spell.load_dictionary(dictionary_path, term_index, count_index)
 else:

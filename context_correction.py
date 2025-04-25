@@ -2,10 +2,10 @@ import spacy
 from transformers import pipeline
 import torch
 
-# Load spaCy model
+
 nlp = spacy.load("en_core_web_sm")
 
-# Load grammar correction model
+
 grammar_corrector = pipeline(
     "text2text-generation",
     model="prithivida/grammar_error_correcter_v1",

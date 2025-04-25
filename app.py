@@ -7,18 +7,16 @@ from symspellpy import SymSpell, Verbosity
 from context_correction import correct_text
 import language_tool_python
 
-# Page config
 st.set_page_config(page_title="Handwritten Notes AI", layout="wide")
 st.markdown("<h1 style='color:red;text-align:center;'>AI Handwritten Notes Digitizer</h1>", unsafe_allow_html=True)
 st.markdown("<h3 style='color:black;text-align:center;'>Upload or Scan ➤ OCR ➤ Spell ➤ Grammar ➤ Download</h3>", unsafe_allow_html=True)
 
-# Load OCR and correction tools
 reader = easyocr.Reader(['en'])
 tool = language_tool_python.LanguageTool('en-US')
 sym_spell = SymSpell(max_dictionary_edit_distance=2, prefix_length=7)
 sym_spell.load_dictionary("frequency_dictionary_en_82_765.txt", 0, 1)
 
-# Functions
+
 def perform_ocr(img_path):
     image = cv2.imread(img_path)
     result = reader.readtext(image)
@@ -28,7 +26,7 @@ def correct_spelling(text):
     suggestions = sym_spell.lookup_compound(text, max_edit_distance=2)
     return suggestions[0].term if suggestions else text
 
-# UI
+
 input_mode = st.radio("Choose Input Type:", ["Upload from Device", "Capture from Camera"])
 
 img_path = None
@@ -48,7 +46,7 @@ elif input_mode == "Capture from Camera":
             img_path = temp.name
             st.image(img_path, caption="Captured Image", use_column_width=True)
 
-# Processing
+
 if img_path and st.button("🚀 Start Processing"):
     st.info("🔍 Step 1: OCR in progress...")
     raw_text = perform_ocr(img_path)
@@ -71,6 +69,6 @@ if img_path and st.button("🚀 Start Processing"):
     else:
         st.info("🟢 No grammar issues found.")
 
-    # Download button
+   
     st.download_button("📥 Download Output", final_text, file_name="final_output.txt", mime="text/plain")
 
